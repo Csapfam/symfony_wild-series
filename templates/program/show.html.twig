@@ -14,7 +14,7 @@
            
                 {% for season in program.seasons %}
                     <li>
-                        {{ season.description }} - {{season.year}}
+                        {{ season.description }} - {{season.year}}  - <a href="{{ path('program_season_show', {program:program.id, season:season.id}) }}">Episodes de la saison</a>
                     </li>
 
                 {% endfor %}
