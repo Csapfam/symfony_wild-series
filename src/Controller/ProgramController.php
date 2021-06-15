@@ -48,15 +48,11 @@ class ProgramController extends AbstractController
         // Get data from HTTP request
         $form->handleRequest($request);
         // Was the form submitted ?
-        if ($form->isSubmitted()) {
-            // Deal with the submitted data
-        // Get the Entity Manager
-        $entityManager = $this->getDoctrine()->getManager();
-        // Persist Category Object
-        $entityManager->persist($program);
-        // Flush the persisted object
-        $entityManager->flush();
-        // Finally redirect to categories list
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($form);
+            $entityManager->flush();
+
         return $this->redirectToRoute('program_index');
         }
         // Render the form
