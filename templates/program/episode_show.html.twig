@@ -6,7 +6,7 @@
 		<div
 			class="media-body">
 
-				<h2>Saison {{ season.id }} de la série: {{ program.title }}</h2>
+				<h2>{{ season.description }} de la série: {{ program.title }}</h2>
 			
 				<a href="{{ path('program_season_show', {program:program.id, season:season.id}) }}">Voir {{ season.description}}</a>
 
