@@ -18,19 +18,12 @@ class CategoryFixtures extends Fixture
     ];
 
     public function load(ObjectManager $manager)
-    {
-        /* exemple quete 09 : création de la 1ére fixture
-
-        $category = new Category();
-        $category->setName('Horreur');
-        $manager->persist($category);
-        $manager->flush();
-        */
-        
+    {   
         foreach (self::CATEGORIES as $key => $categoryName){
             $category = new Category();
             $category->setName($categoryName);
             $manager->persist($category);
+            $this->addReference('category_' . $key, $category);
         }
        $manager->flush();
     }
