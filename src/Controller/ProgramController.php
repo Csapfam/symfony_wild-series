@@ -38,7 +38,7 @@ class ProgramController extends AbstractController
      * The controller for the program add form
      * Display the form or deal with it
      *
-     * @Route("/new", name="new")
+     * @Route("new", name="new")
      */
     public function new(Request $request) : Response
     {
@@ -51,7 +51,7 @@ class ProgramController extends AbstractController
         // Was the form submitted ?
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($form);
+            $entityManager->persist($program);
             $entityManager->flush();
 
         return $this->redirectToRoute('program_index');
