@@ -6,10 +6,18 @@ use App\Entity\Program;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use App\Service\Slugify;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
-   /* Ajout d'une constante contenant la iste des programmes */
+   
+
+   public function __construct(Slugify $slugify)
+   {
+       $this->slugify = $slugify;
+   }
+   
+    /* Ajout d'une constante contenant la iste des programmes */
    const PROGRAMS = [
     'The Walking Dead',
     'Breaking Bad',
@@ -27,6 +35,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $program->setSummary($programName);
             $program->setPoster($programName);
             $program->setCategory($programName);
+            $program->setSlug($this->slugify->generate($programName));
             $manager->persist($program);
             $this->addReference('program_' . $key, $program);
         }

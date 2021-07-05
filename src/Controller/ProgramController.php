@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Form\ProgramType;
+use App\Service\Slugify;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -40,7 +41,7 @@ class ProgramController extends AbstractController
      *
      * @Route("new", name="new")
      */
-    public function new(Request $request) : Response
+    public function new(Request $request, Slugify $slugify) : Response
     {
         // Create a new Program Object
         $program = new Program();
@@ -51,6 +52,8 @@ class ProgramController extends AbstractController
         // Was the form submitted ?
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $slug = $slugify ->generate($program ->getTitle());
+            $program ->setSlug($slug);
             $entityManager->persist($program);
             $entityManager->flush();
 
@@ -61,7 +64,7 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("show/{id<^[0-9]+$>}", name="show")
+     * @Route("show/{id<^[0-9]+$>}", name="show", methods={"GET"})
      */
     public function show(Program $program): Response
     {

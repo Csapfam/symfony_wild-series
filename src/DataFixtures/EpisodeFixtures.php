@@ -6,10 +6,17 @@ use App\Entity\Episode;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use App\Service\Slugify;
 
 class EpisodeFixtures extends Fixture implements DependentFixtureInterface
 {
-     /* Ajout d'une constante contenant la iste des saisons */
+
+    public function __construct(Slugify $slugify)
+    {
+        $this->slugify = $slugify;
+    }
+   
+    /* Ajout d'une constante contenant la iste des saisons */
    const EPISODES = [
     'Episode 1',
     'Episode 2',
@@ -27,6 +34,7 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
             $episode->setNumber($episodeName);
             $episode->setSynopsis($episodeName);
             $episode->setSeason($episodeName);
+            $episode->setSlug($this->slugify->generate($episodeName));
             $manager->persist($episode);
             $this->addReference('episode' . $key, $episode);
         }
